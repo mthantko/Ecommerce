@@ -1,6 +1,8 @@
 package com.ecom.app.controller;
 
 import com.ecom.app.Service.UserService;
+import com.ecom.app.dto.UserReqDTO;
+import com.ecom.app.dto.UserRespDTO;
 import com.ecom.app.entity.User;
 import com.ecom.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +18,19 @@ import java.util.List;
 public class UserController {
 
     private final UserService  userService;
-    private final UserRepository userRepository;
+    private final UserReqDTO userReqDTO;
+    private final UserRespDTO userRespDTO;
+
 
     @GetMapping("/{id}")
     //@RequestMapping(value = "/api/users/{id}",  method = RequestMethod.GET)
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserRespDTO> getUserById(@PathVariable Long id) {
         return userService.fetchUserById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() ->ResponseEntity.notFound().build());
     }
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
+    public ResponseEntity<List<UserRespDTO>> findAll() {
         return new ResponseEntity<>(userService.fetchAllUsers(), HttpStatus.OK);
     }
 
