@@ -1,10 +1,9 @@
 package com.ecom.app.controller;
 
-import com.ecom.app.Service.UserService;
+import com.ecom.app.service.UserService;
 import com.ecom.app.dto.UserReqDTO;
 import com.ecom.app.dto.UserRespDTO;
 import com.ecom.app.entity.User;
-import com.ecom.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +17,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService  userService;
-    private final UserReqDTO userReqDTO;
-    private final UserRespDTO userRespDTO;
+
 
 
     @GetMapping("/{id}")
@@ -35,14 +33,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody User user) {
-        userService.addUser(user);
+    public ResponseEntity<String> createUser(@RequestBody UserReqDTO userReqDTO) {
+        userService.addUser(userReqDTO);
         return ResponseEntity.ok("Add User Successfully");
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id,@RequestBody User updatedUser) {
-        boolean updated = userService.updateUser(id, updatedUser);
+    public ResponseEntity<String> updateUser(@PathVariable Long id,@RequestBody UserReqDTO updateUserReqDTO) {
+        boolean updated = userService.updateUser(id, updateUserReqDTO);
         if (updated) {
             return ResponseEntity.ok("Update User Successfully");
         }
